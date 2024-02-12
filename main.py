@@ -1,9 +1,7 @@
 import discord
 from discord.ext import tasks
-from discord.oggopus import Opus  # Updated import path
 import os
-
-
+import subprocess
 
 # Replace with your YouTube API key
 YOUTUBE_API_KEY = os.environ["API_KEY"]
@@ -26,7 +24,7 @@ async def play_livestream(client, guild):
 
     voice_client = await voice_channel.connect()
 
-    # Use youtube_dl for advanced livestream extraction
+    # Use youtube-dl for advanced livestream extraction
     ytdl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -39,7 +37,7 @@ async def play_livestream(client, guild):
         'source_address': '0.0.0.0',  # Optional: fix IPv6 issues
     }
 
-    # Install youtube_dl if not present
+    # Install youtube-dl if not present
     try:
         import youtube_dl
     except ImportError:
@@ -53,9 +51,22 @@ async def play_livestream(client, guild):
         info = ydl.extract_info(YOUTUBE_URL, download=False)
         url = info['url']
 
-        source = discord.FFmpegOpusAudio(url, executable="ffmpeg.exe", bitrate=192)  # Adjusted for Opus compatibility
+    # Start FFmpeg process to convert and pipe audio to discord
+    ffmpeg_cmd = ["ffmpeg", "-i", url, "-f", "s16le", "-ar", "48000", "-ac", "2", "pipe:1"]
+    ffmpeg_process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
+    # Read audio chunks from FFmpeg and play them
+    while True:
+        data = ffmpeg_process.stdout.read(1024)
+        if not data:
+            break
+        source = discord.PCMAudio(data)
         voice_client.play(source, after=None)
+        source.wait()
+
+    # Cleanup: stop FFmpeg process and wait for it to finish
+    ffmpeg_process.terminate()
+    ffmpeg_process.wait()
 
 async def main():
     """Connects to the Discord server and starts the bot."""
