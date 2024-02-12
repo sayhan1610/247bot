@@ -2,7 +2,6 @@ import discord
 from discord.ext import tasks
 import os
 import subprocess
-import asyncio
 
 # Replace with your YouTube API key
 YOUTUBE_API_KEY = os.environ["API_KEY"]
@@ -90,6 +89,4 @@ async def main():
 
     await client.run(bot_token)
 
-if __name__ == "__main__":
-    asyncio.run(main())
 
