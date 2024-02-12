@@ -1,6 +1,6 @@
 import discord
 from discord.ext import tasks
-from discord.opus import Opus
+from discord.oggopus import Opus  # Updated import path
 import os
 
 
