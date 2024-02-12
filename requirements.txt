@@ -3,3 +3,4 @@ discord.py
 youtube-dl
 opuslib
 discord.py[voice]
+asyncio
