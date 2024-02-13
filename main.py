@@ -3,7 +3,10 @@ from discord.ext import tasks
 import youtube_dl
 import asyncio
 import os
+from discord import app_commands
+from discord.ext import commands
 
+bot = commands.Bot(command_prefix="g.", intents=discord.Intents.all())
 # Replace with your bot token
 BOT_TOKEN = os.environ['BOT_TOKEN']
 
@@ -25,7 +28,7 @@ ydl_opts = {
     'source_address': '0.0.0.0',  # Prevent potential IPv6 issues
 }
 
-def connect_to_voice_channel(bot):
+async def connect_to_voice_channel(bot):
     """Connects the bot to the specified voice channel and starts playing the live stream."""
     guild = bot.get_guild(SERVER_ID)
     if not guild:
