@@ -2,6 +2,9 @@ import discord
 from discord.ext import tasks
 import os
 import subprocess
+from discord import app_commands
+from discord.ext import commands
+import asyncio
 
 # Replace with your YouTube API key
 YOUTUBE_API_KEY = os.environ["API_KEY"]
@@ -10,6 +13,8 @@ bot_token = os.environ["BOT_TOKEN"]
 # Server and voice channel IDs
 SERVER_ID = 1064091614793957396
 VOICE_CHANNEL_ID = 1075153278410690711
+
+bot = commands.Bot(command_prefix="*", intents=discord.Intents.all())
 
 # YouTube video URL
 YOUTUBE_URL = "https://www.youtube.com/live/jfKfPfyJRdk?si=GDx3AgrQdB9CYTOP"
@@ -87,6 +92,7 @@ async def main():
 
         await play_livestream(client, guild)
 
-    await client.run(bot_token)
+
+bot.run(bot_token)
 
 
