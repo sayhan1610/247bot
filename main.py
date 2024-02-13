@@ -1,6 +1,8 @@
 import discord
 from discord.ext import tasks
 import youtube_dl
+import asyncio
+import os
 
 # Replace with your bot token
 BOT_TOKEN = os.environ['BOT_TOKEN']
