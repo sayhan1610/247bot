@@ -64,6 +64,6 @@ async def connect_to_voice_channel(bot):
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user} (ID: {bot.user.id})')
-    connect_to_voice_channel.start(bot)  # Start playback on bot readiness
+    connect_to_voice_channel(bot)  # Start playback on bot readiness
 
 bot.run(BOT_TOKEN)
