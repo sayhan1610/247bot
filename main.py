@@ -4,11 +4,9 @@ import youtube_dl
 import os
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
-intents = discord.Intents.default()
-intents.typing = False
-intents.presence = False
 
-bot = commands.Bot(command_prefix="!", intents=intents)
+
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 @bot.event
 async def on_ready():
